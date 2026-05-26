@@ -1,7 +1,9 @@
 import { createAuthClient } from "better-auth/react"
+
+// 1. Create your configured client instance
 export const authClient = createAuthClient({
-    /** The base URL of the server (optional if you're using the same domain) */
-    baseURL: process.env.BETTER_AUTH_URL
+    baseURL: process.env.BETTER_AUTH_URL // Note: In Next.js clientside, use NEXT_PUBLIC_BETTER_AUTH_URL if this value is needed directly on the client.
 })
 
-export const { signIn, signUp, useSession } = createAuthClient()
+// 2. Extract the methods directly from your configured instance
+export const { signIn, signUp, useSession } = authClient;
