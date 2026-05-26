@@ -4,12 +4,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card, Input, Button } from "@heroui/react";
-import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
-import { router } from "better-auth/api";
 import toast from "react-hot-toast";
 
-export default function RegisterPage() {
+export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -22,35 +21,30 @@ export default function RegisterPage() {
 
     const form = e.target;
 
-    const userData = {
-      name: form.name.value,
+    const credentials = {
       email: form.email.value,
       password: form.password.value,
     };
-    console.log("Submitting:", userData);
+    console.log("Submitting sign-in:", credentials);
 
     try {
-      const { data, error } = await authClient.signUp.email({
-        name: userData.name,
-        email: userData.email,
-        password: userData.password,
+      const { data, error } = await authClient.signIn.email({
+        email: credentials.email,
+        password: credentials.password,
         callbackURL: "/",
       });
 
       if (error) {
-        toast.error(error.message)
-        setErrorMsg(error.message || "Signup failed");
+        toast.error(error.message);
+        setErrorMsg(error.message || "Sign in failed");
         console.log("Error:", error);
         return;
+      } else {
+        toast.success("Signed in successfully!" || data.message);
+        router.push("/");
       }
-      else {  
-        toast.success(data.message);
-      console.log(data.message);
-
-      router.push("/");
-    }
     } catch (err) {
-      setErrorMsg("Something went wrong");
+      setErrorMsg("Something went wrong" );
       console.error(err);
     } finally {
       setLoading(false);
@@ -60,13 +54,13 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-black via-zinc-900 to-black px-4">
       <Card className="w-full max-w-md p-6 bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl">
-
+        
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-white">
-            Create Account
+            Welcome Back
           </h1>
           <p className="text-sm text-gray-300">
-            Register to continue
+            Sign in to your account
           </p>
         </div>
 
@@ -79,27 +73,22 @@ export default function RegisterPage() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5 flex flex-col">
-        <label htmlFor="name">Full Name</label>
-          <Input
-            name="name"
-            label="Full Name"
-            startContent={<User size={18} />}
-            variant="bordered"
-            classNames={{ input: "text-white" }}
-            required
-          />
-          <label htmlFor="email">Email Address</label>
-
+          <label htmlFor="email" className="text-sm font-medium text-white/80 ">
+            Email Address
+          </label>
           <Input
             name="email"
             label="Email"
+            type="email"
             startContent={<Mail size={18} />}
             variant="bordered"
             classNames={{ input: "text-white" }}
             required
           />
 
-            <label htmlFor="password">Password</label>
+          <label htmlFor="password" className="text-sm font-medium text-white/80 ">
+            Password
+          </label>
           <Input
             name="password"
             label="Password"
@@ -109,7 +98,7 @@ export default function RegisterPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="text-gray-400"
+                className="text-gray-400 focus:outline-none"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -124,14 +113,14 @@ export default function RegisterPage() {
             className="w-full font-semibold"
             disabled={loading}
           >
-            {loading ? "Creating Account..." : "Register"}
+            {loading ? "Signing In..." : "Sign In"}
           </Button>
         </form>
 
         <p className="text-center text-sm text-gray-300 mt-5">
-          Already have an account?{" "}
-          <Link href="/signin" className="text-white font-semibold">
-            SignIn
+          {"Don't have an account?"}{" "}
+          <Link href="/signup" className="text-white font-semibold hover:underline">
+            Register
           </Link>
         </p>
       </Card>
