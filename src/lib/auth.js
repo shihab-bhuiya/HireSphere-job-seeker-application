@@ -6,6 +6,10 @@ const client = new MongoClient(process.env.MONGO_URI);
 const db = client.db("HireSphere");
 
 export const auth = betterAuth({
+    trustedOrigins: [
+      process.env.BETTER_AUTH_URL,
+      "http://localhost:3000",
+  ],
       emailAndPassword: { 
     enabled: true, 
   }, 

@@ -95,6 +95,7 @@ const NavBar = () => {
                 >
                   Sign In
                 </Link>
+                <Link href={"/signup"}> 
                 <Button
                   as={Link}
                   href="/signup"
@@ -102,7 +103,7 @@ const NavBar = () => {
                   className="h-10 bg-white px-5 text-sm font-semibold text-black shadow-lg"
                 >
                   Get Started
-                </Button>
+                </Button></Link>
               </>
             )}
           </div>
