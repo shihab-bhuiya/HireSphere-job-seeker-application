@@ -12,6 +12,7 @@ const NavBar = () => {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
+  console.log("Current User:", user);
 
   const navItems = [
     { label: "Browse Jobs", href: "/jobs" },

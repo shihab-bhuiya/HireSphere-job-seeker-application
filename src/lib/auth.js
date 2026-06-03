@@ -8,8 +8,8 @@ const db = client.db("HireSphere");
 
 export const auth = betterAuth({
     trustedOrigins: [
-      process.env.BETTER_AUTH_URL,
-      "http://localhost:3000",
+      // process.env.BETTER_AUTH_URL,
+      process.env.LOCAL_URL,
   ],
       emailAndPassword: { 
     enabled: true, 
@@ -18,4 +18,11 @@ export const auth = betterAuth({
     // Optional: if you don't provide a client, database transactions won't be enabled.
     client
   }),
+  user: {
+    additionalFields: {
+      role: {
+        default: "seeker"
+      }
+    }
+  }
 });

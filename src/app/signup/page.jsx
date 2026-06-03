@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card, Input, Button } from "@heroui/react";
+import {Description, Label, Radio, RadioGroup} from "@heroui/react";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { router } from "better-auth/api";
@@ -25,6 +26,7 @@ export default function RegisterPage() {
     const userData = {
       name: form.name.value,
       email: form.email.value,
+      role: form.role.value,
       password: form.password.value,
     };
     console.log("Submitting:", userData);
@@ -33,6 +35,7 @@ export default function RegisterPage() {
       const { data, error } = await authClient.signUp.email({
         name: userData.name,
         email: userData.email,
+        role: userData.role,
         password: userData.password,
         callbackURL: "/",
       });
@@ -118,6 +121,33 @@ export default function RegisterPage() {
             classNames={{ input: "text-white" }}
             required
           />
+          {/* Role Selection */}
+              <div className="flex flex-col gap-4">
+      <Label>Subscription plan</Label>
+      <RadioGroup defaultValue="seeker" name="role" orientation="horizontal">
+        <Radio value="seeker">
+          <Radio.Control>
+            <Radio.Indicator />
+          </Radio.Control>
+          <Radio.Content>
+            <Label>Job Seeker</Label>
+      
+          </Radio.Content>
+        </Radio>
+        <Radio value="recruiter">
+          <Radio.Control>
+            <Radio.Indicator />
+          </Radio.Control>
+          <Radio.Content>
+            <Label>Recruiter</Label>
+         
+          </Radio.Content>
+        </Radio>
+     
+      </RadioGroup>
+    </div>
+
+
 
           <Button
             type="submit"
