@@ -3,9 +3,11 @@ import React from 'react';
 
 const DashboardLayout = ({children}) => {
     return (
-        <div className="flex h-screen w-full overflow-hidden">
+        <div className="flex min-h-screen w-full overflow-hidden">
             <DashboardSideBar/> 
-            <div> {children} </div>
+            
+          
+            <div className="flex-1"> {children} </div>
            
         </div>
     );

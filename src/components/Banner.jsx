@@ -1,6 +1,6 @@
 import React from "react";
 
-const HeroSection = () => {
+const Banner = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-black text-white overflow-hidden">
       
@@ -63,4 +63,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default Banner;

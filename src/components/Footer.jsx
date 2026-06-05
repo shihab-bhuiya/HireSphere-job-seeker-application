@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import Link from "next/link";
 import {
@@ -13,7 +12,8 @@ import { LogoFacebook, LogoLinkedin } from "@gravity-ui/icons";
 const Footer = () => {
   return (
     <footer className="bg-[#0b0b0d] px-4 py-16 md:px-8">
-      <div className="mx-auto max-w-7xl rounded-[32px] border border-white/5 bg-black px-8 py-14">
+      <div className="mx-auto max-w-7xl rounded-[32px] border border-white/5 bg-black
+       px-8 py-14">
         
         {/* Top Section */}
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
