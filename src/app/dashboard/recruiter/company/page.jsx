@@ -1,11 +1,22 @@
-import React from 'react';
 
-const RecruiterCompany = () => {
+import React from 'react';
+import CompanyProfile from './CompanyProfile';
+import { getUserSession } from '@/lib/core/session';
+import { getLoggedInRecruiterCompany, getRecruiterCompanies } from '@/lib/api/companies';
+
+const CompanyPage = async () => {
+
+        const user = await getUserSession();
+        const recruiterCompany = await getRecruiterCompanies(user?.id);
+        const userLoggedIn = await getLoggedInRecruiterCompany();
+        console.log("Current User Session:", user);
+        console.log("Recruiter Company:", recruiterCompany);
+        console.log("User Logged In Company:", userLoggedIn);
     return (
         <div>
-            <h2>Company Profile</h2>
+            <CompanyProfile recruiter={user} recruiterCompany={recruiterCompany}></CompanyProfile>
         </div>
     );
 };
 
-export default RecruiterCompany;
+export default CompanyPage;
