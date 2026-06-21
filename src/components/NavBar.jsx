@@ -17,7 +17,7 @@ const NavBar = () => {
   const navItems = [
     { label: "Browse Jobs", href: "/jobs" },
     { label: "Companies", href: "/companies" },
-    { label: "Pricing", href: "/pricing" },
+    { label: "Pricing", href: "/plans" },
   ];
 
   const handleSignOut = async () => {

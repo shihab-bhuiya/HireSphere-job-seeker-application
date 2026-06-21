@@ -45,6 +45,7 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState({});
 
+
   // Synchronize state if server props update directly
   useEffect(() => {
     const freshData = Array.isArray(recruiterCompany) ? recruiterCompany[0] : recruiterCompany;
@@ -132,6 +133,7 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
       status: company?.status || "active", 
       recruiterId: recruiter?.id || recruiter?._id, 
     };
+
 
     try {
       const payload = await createCompany(newCompanyData);

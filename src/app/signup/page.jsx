@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Card, Input, Button } from "@heroui/react";
-import {Description, Label, Radio, RadioGroup} from "@heroui/react";
+import { Description, Label, Radio, RadioGroup } from "@heroui/react";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { router } from "better-auth/api";
@@ -15,6 +15,9 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirect') || '/';
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,12 +33,14 @@ export default function RegisterPage() {
       password: form.password.value,
     };
     console.log("Submitting:", userData);
+    const plan = userData.role === 'seeker' ? 'seeker_free' : 'recruiter_free';
 
     try {
       const { data, error } = await authClient.signUp.email({
         name: userData.name,
         email: userData.email,
         role: userData.role,
+        plan: plan,
         password: userData.password,
         callbackURL: "/",
       });
@@ -46,12 +51,12 @@ export default function RegisterPage() {
         console.log("Error:", error);
         return;
       }
-      else {  
+      else {
         toast.success(data.message);
-      console.log(data.message);
+        console.log(data.message);
 
-      router.push("/");
-    }
+        router.push(redirectTo);
+      }
     } catch (err) {
       setErrorMsg("Something went wrong");
       console.error(err);
@@ -82,7 +87,7 @@ export default function RegisterPage() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5 flex flex-col">
-        <label htmlFor="name">Full Name</label>
+          <label htmlFor="name">Full Name</label>
           <Input
             name="name"
             label="Full Name"
@@ -102,7 +107,7 @@ export default function RegisterPage() {
             required
           />
 
-            <label htmlFor="password">Password</label>
+          <label htmlFor="password">Password</label>
           <Input
             name="password"
             label="Password"
@@ -122,30 +127,30 @@ export default function RegisterPage() {
             required
           />
           {/* Role Selection */}
-              <div className="flex flex-col gap-4">
-      <Label>Subscription plan</Label>
-      <RadioGroup defaultValue="seeker" name="role" orientation="horizontal">
-        <Radio value="seeker">
-          <Radio.Control>
-            <Radio.Indicator />
-          </Radio.Control>
-          <Radio.Content>
-            <Label>Job Seeker</Label>
-      
-          </Radio.Content>
-        </Radio>
-        <Radio value="recruiter">
-          <Radio.Control>
-            <Radio.Indicator />
-          </Radio.Control>
-          <Radio.Content>
-            <Label>Recruiter</Label>
-         
-          </Radio.Content>
-        </Radio>
-     
-      </RadioGroup>
-    </div>
+          <div className="flex flex-col gap-4">
+            <Label>Subscription plan</Label>
+            <RadioGroup defaultValue="seeker" name="role" orientation="horizontal">
+              <Radio value="seeker">
+                <Radio.Control>
+                  <Radio.Indicator />
+                </Radio.Control>
+                <Radio.Content>
+                  <Label>Job Seeker</Label>
+
+                </Radio.Content>
+              </Radio>
+              <Radio value="recruiter">
+                <Radio.Control>
+                  <Radio.Indicator />
+                </Radio.Control>
+                <Radio.Content>
+                  <Label>Recruiter</Label>
+
+                </Radio.Content>
+              </Radio>
+
+            </RadioGroup>
+          </div>
 
 
 
@@ -160,7 +165,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-sm text-gray-300 mt-5">
           Already have an account?{" "}
-          <Link href="/signin" className="text-white font-semibold">
+          <Link href={`/signin?redirect=${redirectTo}`} className="text-white font-semibold">
             SignIn
           </Link>
         </p>

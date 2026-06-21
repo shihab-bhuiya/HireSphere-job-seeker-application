@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Card, Input, Button } from "@heroui/react";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
@@ -13,6 +13,9 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
+
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirect') || '/';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +34,7 @@ export default function SignInPage() {
       const { data, error } = await authClient.signIn.email({
         email: credentials.email,
         password: credentials.password,
-        callbackURL: "/",
+      
       });
 
       if (error) {
@@ -41,7 +44,7 @@ export default function SignInPage() {
         return;
       } else {
         toast.success("Signed in successfully!");
-        router.push("/");
+        router.push(redirectTo);
       }
     } catch (err) {
       setErrorMsg("Something went wrong" );
@@ -119,7 +122,7 @@ export default function SignInPage() {
 
         <p className="text-center text-sm text-gray-300 mt-5">
           {"Don't have an account?"}{" "}
-          <Link href="/signup" className="text-white font-semibold hover:underline">
+          <Link href={`/signup?redirect=${redirectTo}`} className="text-white font-semibold hover:underline">
             Register
           </Link>
         </p>
