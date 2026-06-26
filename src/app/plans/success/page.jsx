@@ -57,6 +57,7 @@ export default async function Success({ searchParams }) {
                         We appreciate your business! Your account features have been provisioned and your plan is now active.
                     </p>
 
+
                     {/* Receipt Info Box Card */}
                     <div className="bg-zinc-950/60 border border-zinc-800/80 rounded-xl p-4 text-left space-y-3.5 text-xs mb-8">
                         <div className="flex items-start gap-2.5">

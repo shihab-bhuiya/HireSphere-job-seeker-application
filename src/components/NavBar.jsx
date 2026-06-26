@@ -30,10 +30,24 @@ const NavBar = () => {
     });
   };
 
+  const dashBoardLink = {
+    seeker: "/dashboard/seeker",
+    recruiter: '/dashboard/recruiter',
+
+  }
+
+  if (user?.email) {
+    navItems.push({
+      label: 'Dashboard',
+      href: dashBoardLink[user?.role || 'seeker']
+
+    })
+  }
+
   return (
     <nav className="sticky top-0 z-50 w-full bg-[#111111] px-3 py-4 md:px-6">
       <div className="mx-auto flex max-w-7xl items-center justify-between rounded-[32px] border border-white/5 bg-white/5 px-5 py-4 backdrop-blur-xl">
-        
+
         {/* LEFT - Logo */}
         <div className="flex items-center gap-10">
           <Link href="/" className="flex items-center gap-3">
@@ -96,15 +110,15 @@ const NavBar = () => {
                 >
                   Sign In
                 </Link>
-                <Link href={"/signup"}> 
-                <Button
-                  as={Link}
-                  href="/signup"
-                  radius="lg"
-                  className="h-10 bg-white px-5 text-sm font-semibold text-black shadow-lg"
-                >
-                  Get Started
-                </Button></Link>
+                <Link href={"/signup"}>
+                  <Button
+                    as={Link}
+                    href="/signup"
+                    radius="lg"
+                    className="h-10 bg-white px-5 text-sm font-semibold text-black shadow-lg"
+                  >
+                    Get Started
+                  </Button></Link>
               </>
             )}
           </div>
